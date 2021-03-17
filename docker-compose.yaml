@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:13
+    restart: unless-stopped
+    ports:
+    - '5432:5432'
+    environment:
+    - POSTGRES_DB=yt_arch
+    - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+    - ./.data/postgres:/var/lib/postgresql/data

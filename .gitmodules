@@ -1,0 +1,6 @@
+[submodule ".submodules/python-httpapiclient"]
+	path = .submodules/python-httpapiclient
+	url = git@github.com:smpio/python-httpapiclient.git
+[submodule ".submodules/python-utils"]
+	path = .submodules/python-utils
+	url = git@github.com:smpio/python-utils.git
