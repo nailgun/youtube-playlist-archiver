@@ -12,4 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+RUN ./manage.py collectstatic
+
 ENTRYPOINT ["./manage.py"]

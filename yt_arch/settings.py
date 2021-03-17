@@ -40,6 +40,7 @@ TEMPLATES = [
 ]
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
 
 AUTH_USER_MODEL = 'yt_arch.User'
 
