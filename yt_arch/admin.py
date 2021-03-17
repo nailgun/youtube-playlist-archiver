@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.forms import BaseInlineFormSet
+
 from yt_arch import models
 
 
@@ -7,10 +9,19 @@ class PlaylistAdmin(admin.ModelAdmin):
     list_display = ('external_id',)
 
 
+class PlaylistItemFormset(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.queryset = self.queryset.select_related('video_meta')
+
+
 class PlaylistItemInline(admin.TabularInline):
     model = models.PlaylistItem
-    autocomplete_fields = ('video_meta',)
+    formset = PlaylistItemFormset
+    readonly_fields = ('position', 'video_meta',)
     extra = 0
+    max_num = 0
+    can_delete = False
 
 
 @admin.register(models.PlaylistVersion)

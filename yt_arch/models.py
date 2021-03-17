@@ -34,7 +34,7 @@ class VideoMeta(models.Model):
     discovered_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return f'{self.external_id} — {self.title}'
 
 
 class User(AbstractUser):
