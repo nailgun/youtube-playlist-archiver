@@ -12,6 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN ./manage.py collectstatic
+RUN SECRET_KEY=build ./manage.py collectstatic
 
 ENTRYPOINT ["./manage.py"]
