@@ -25,7 +25,7 @@ class Fetcher:
         while next_page_token is not None:
             ret = self.api.get('playlistItems', params={
                 'key': self.api_key,
-                'part': 'snippet',
+                'part': ['snippet', 'contentDetails'],
                 'playlistId': playlist_id,
                 'maxResults': self.max_page_size,
                 'pageToken': next_page_token,
@@ -33,19 +33,19 @@ class Fetcher:
             next_page_token = ret.get('nextPageToken')
 
             for item in ret['items']:
-                self._append(playlist_version, item['snippet'])
+                self._append(playlist_version, item)
 
-    def _append(self, playlist_version, snippet):
-        external_id = snippet['resourceId']['videoId']
+    def _append(self, playlist_version, data):
+        external_id = data['contentDetails']['videoId']
         meta, _ = models.VideoMeta.objects.get_or_create(external_id=external_id, defaults={
-            'title': snippet['title'],
-            'channel_id': snippet.get('videoOwnerChannelId', ''),
-            'published_at': snippet['publishedAt'],
+            'title': data['snippet']['title'],
+            'channel_id': data['snippet'].get('videoOwnerChannelId', ''),
+            'published_at': data['contentDetails'].get('videoPublishedAt'),
         })
 
         item = models.PlaylistItem()
         item.playlist_version = playlist_version
-        item.position = snippet['position']
+        item.position = data['snippet']['position']
         item.video_meta = meta
         item.save()
 
